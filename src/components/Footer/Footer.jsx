@@ -7,7 +7,9 @@ export default function Footer() {
 
   return (
     <>
-      <h1>Footer</h1>
+       <nav className="bg-emerald-500 fixed bottom-0 left-0 right-0 text-white font-bold text-center p-2 ">
+        Footer
+      </nav>
     </>
   );
 }

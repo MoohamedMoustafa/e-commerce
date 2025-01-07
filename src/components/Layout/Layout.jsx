@@ -12,7 +12,7 @@ export default function Layout() {
     <>
       <Navbar />
 
-      <div className="container py-10">
+      <div className="container py-20 lg:py-5 my-5">
         <Outlet />
       </div>
 
