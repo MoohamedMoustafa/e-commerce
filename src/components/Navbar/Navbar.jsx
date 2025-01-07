@@ -16,7 +16,7 @@ export default function Navbar() {
               href=""
               className="flex items-center space-x-3 rtl:space-x-reverse"
             >
-              <img src={logo} classNameName="h-8" width={120} alt="Logo" />
+              <img src={logo} className="h-8" width={120} alt="Logo" />
             </NavLink>
             <ul className="links flex gap-4">
                 <li><NavLink className="text-slate-600" to="">Home</NavLink></li>
