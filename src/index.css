@@ -42,6 +42,11 @@ a , a:hover{
     color: var(--light-color);
     @apply px-4 py-1 rounded-lg w-full;
 }
+.btn {
+    background-color: var(--main-color);
+    color: var(--light-color);
+    @apply px-4 py-1 rounded-lg w-full;
+}
 .product:hover .btn 
 {
     opacity: 1;

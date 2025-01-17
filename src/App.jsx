@@ -12,6 +12,7 @@ import Register from "./components/Register/Register";
 import NotFound from "./components/NotFound/NotFound";
 import UserContextProvider from "./components/Context/UserContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
+import ProductDetails from './components/ProductDetails/ProductDetails';
 
 function App() {
   const router = createBrowserRouter([
@@ -24,6 +25,7 @@ function App() {
         { path: "cart", element: <ProtectedRoute><Cart /></ProtectedRoute> },
         { path: "brands", element:<ProtectedRoute><Brands /></ProtectedRoute>  },
         { path: "categories", element: <ProtectedRoute><Categories /></ProtectedRoute> },
+        { path: "productdetails/:id", element: <ProtectedRoute><ProductDetails /></ProtectedRoute> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "*", element: <NotFound /> },
