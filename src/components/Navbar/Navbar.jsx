@@ -10,7 +10,7 @@ export default function Navbar() {
   return (
     <>
       <nav className="bg-slate-300 fixed top-0 left-0 right-0 border-gray-200 ">
-        <div className="flex flex-wrap justify-center lg:justify-between gap-4 items-center mx-auto max-w-screen-xl p-4">
+        <div className="container flex flex-wrap justify-center lg:justify-between gap-4 items-center mx-auto max-w-screen-xl p-4">
           <div className=" left-side flex items-center gap-5">
             <NavLink
               href=""

@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import style from "./Register.module.css";
 import { useFormik } from "formik";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 
 export default function Register() {
+  const [errorMsg, setErrorMsg] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigateUser = useNavigate();
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -33,21 +35,44 @@ export default function Register() {
       .oneOf([Yup.ref("password")], "Passwords must match"),
   });
 
-  const handleRegister = async (values) => {
-    console.log(values);
-    const { data } = await axios.post(
-      "https://ecommerce.routemisr.com/api/v1/auth/signup",
-      values
-    );
-    console.log(data);
+  // const handleRegister = async (values) => {
+  //   console.log(values);
+  //   const { data } = await axios.post(
+  //     "https://ecommerce.routemisr.com/api/v1/auth/signup",
+  //     values
+  //   );
+  //   console.log(data);
 
-    if (data.message === "success") {
-      console.log("success");
-      navigateUser("/");
-    } else {
-      console.log("error");
-    }
-  };
+  //   if (data.message === "success") {
+  //     console.log("success");
+  //     navigateUser("/");
+  //   } else {
+  //     console.log("error");
+  //   }
+  // };
+
+  function handleRegister(values) {
+    setIsLoading(true);
+    axios
+      .post("https://ecommerce.routemisr.com/api/v1/auth/signup", values)
+      .then((res) => {
+        setIsLoading(false);
+        setErrorMsg("");
+        console.log(res.data.message);
+
+        if (res.data.message === "success") {
+          console.log("success");
+          localStorage.setItem("UserToken", res.data.token);
+          navigateUser("/");
+        }
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        const apiError = error.response.data.message;
+        console.log("error in register: ", apiError);
+        setErrorMsg(apiError);
+      });
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -63,6 +88,14 @@ export default function Register() {
 
   return (
     <>
+      {errorMsg && (
+        <div className="lg:w-5/12 mx-auto bg-red-200 text-red-800 font-bold rounded-lg p-2 mb-2">
+          {errorMsg}
+        </div>
+      )}
+      <h1 className="text-center text-2xl font-bold mb-5 text-emerald-700">
+        Register Now
+      </h1>
       <form onSubmit={formik.handleSubmit} className="max-w-md mx-auto">
         {/* Name input */}
         <div className="relative z-0 w-full mb-5 group">
@@ -209,12 +242,20 @@ export default function Register() {
             <span className="font-medium">{formik.errors.phone}</span>
           </div>
         )}
-        <button
-          type="submit"
-          className="text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-        >
-          Submit
-        </button>
+        <div className="flex flex-col items-center gap-2">
+          <button
+            type="submit"
+            className=" text-white bg-emerald-700 hover:bg-emerald-800 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <i className="fa-solid fa-spinner fa-spin" spin></i>
+            ) : (
+              "Submit"
+            )}
+          </button>
+          <Link to="/login"><span className="underline text-slate-800 hover:text-blue-800 ">already have an account ?</span></Link>
+        </div>
       </form>
     </>
   );
