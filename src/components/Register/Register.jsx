@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Register.module.css";
 import { useFormik } from "formik";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import { UserContext } from "../Context/UserContext";
 
 export default function Register() {
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigateUser = useNavigate();
+  const { setIsLogin, setUserToken } = useContext(UserContext);
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .required("Name is required")
@@ -59,10 +61,12 @@ export default function Register() {
         setIsLoading(false);
         setErrorMsg("");
         console.log(res.data.message);
-
         if (res.data.message === "success") {
+          const token = res.data.token;
           console.log("success");
-          localStorage.setItem("UserToken", res.data.token);
+          localStorage.setItem("UserToken", token);
+          setIsLogin(true);
+          setUserToken(token);
           navigateUser("/");
         }
       })
@@ -254,7 +258,11 @@ export default function Register() {
               "Submit"
             )}
           </button>
-          <Link to="/login"><span className="underline text-slate-800 hover:text-blue-800 ">already have an account ?</span></Link>
+          <Link to="/login">
+            <span className="underline text-slate-800 hover:text-blue-800 ">
+              already have an account ?
+            </span>
+          </Link>
         </div>
       </form>
     </>
