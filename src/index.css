@@ -35,9 +35,12 @@ a , a:hover{
 }
 .product .btn 
 {
-    transition: transform 1s , opacity 1s;
+    transition: transform 0.4s , opacity 1s;
     transform: translateY(100%);
     opacity: 0;
+    background-color: var(--main-color);
+    color: var(--light-color);
+    @apply px-4 py-1 rounded-lg w-full;
 }
 .product:hover .btn 
 {
@@ -65,3 +68,48 @@ a , a:hover{
 {
     background-color: var(--light-color) !important;
 }
+.row {
+    @apply flex flex-wrap;
+}
+
+/* Css Spinner */
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 2px solid grey;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  .loader::after,
+  .loader::before {
+    content: '';  
+    box-sizing: border-box;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: var(--main-color);
+    width: 6px;
+    height: 6px;
+    transform: translate(150%, 150%);
+    border-radius: 50%;
+  }
+  .loader::before {
+    left: auto;
+    top: auto;
+    right: 0;
+    bottom: 0;
+    transform: translate(-150%, -150%);
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 
+/* Css Spinner */
