@@ -1,33 +1,41 @@
 import React, { useEffect, useState } from "react";
-import style from "./RecentProducts.module.css";
+import style from "./RelatedProducts.module.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-export default function RecentProducts() {
-  const [products, setProducts] = useState([]);
+export default function RelatedProducts({ category }) {
+  const [counter, setCounter] = useState(0);
+  const [relatedProducts, setRelatedProducts] = useState([]); // new
+
   
-
-  function getAllProducts() {
+  function getRelatedProducts() {
     axios
-      .get("https://ecommerce.routemisr.com/api/v1/products")
-      .then((response) => {
-        console.log(response.data.data);
-        setProducts(response.data.data);
-      })
-      .catch((err) => console.log(err));
+    .get(`https://ecommerce.routemisr.com/api/v1/products/`)
+    .then((response) => {
+      const allProducts = response.data.data;
+      const relatedProducts = allProducts.filter(
+        (product) => product.category.name === category
+      );
+      console.log("relatedProducts", relatedProducts);
+      setRelatedProducts(relatedProducts);
+    })
+    .catch((error) => console.log(error));
   }
+  
   useEffect(() => {
-    getAllProducts();
+    getRelatedProducts();
   }, []);
-
   return (
     <>
+      {/* related poroducts  */}
       <div className="row gap-y-8">
-        {products.length > 0 ? (
-          products.map((product) => (
+        {relatedProducts.length > 0 ? (
+          relatedProducts.map((product) => (
             <div key={product.id} className="md:w-1/6 px-2 ">
               <div className="product px-2 py-1">
-                <Link to={`productdetails/${product.id}/${product.category.name}`}>
+                <Link
+                  to={`/productdetails/${product.id}/${product.category.name}`}
+                >
                   <img
                     src={product.imageCover}
                     alt={product.title}

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import style from "./ProductDetails.module.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import RelatedProducts from "../RelatedProducts/RelatedProducts";
 
 export default function ProductDetails() {
-  const { id } = useParams();
+  const { id, category } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [currentProduct, setcurrentProduct] = useState([]);
 
@@ -24,9 +25,10 @@ export default function ProductDetails() {
       });
   }
 
+
   useEffect(() => {
     getProduct();
-  }, []);
+  }, [id]);
 
   return (
     <>
@@ -45,7 +47,7 @@ export default function ProductDetails() {
               {currentProduct?.description}
             </h4>
             {/* <h4 className="">{currentProduct?.category.name}</h4> */}
-            <div className="flex justify-between mb-2 lg:pr-4 my-3 mb-5">
+            <div className="flex justify-between  lg:pr-4 my-3 mb-5">
               <span>{currentProduct.price} EGP</span>
               <span>
                 <i className="fas fa-star text-yellow-400"></i>
@@ -62,6 +64,8 @@ export default function ProductDetails() {
           </div>
         </>
       )}
+    <RelatedProducts category={category}/>
+
     </>
   );
 }

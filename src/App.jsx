@@ -25,7 +25,7 @@ function App() {
         { path: "cart", element: <ProtectedRoute><Cart /></ProtectedRoute> },
         { path: "brands", element:<ProtectedRoute><Brands /></ProtectedRoute>  },
         { path: "categories", element: <ProtectedRoute><Categories /></ProtectedRoute> },
-        { path: "productdetails/:id", element: <ProtectedRoute><ProductDetails /></ProtectedRoute> },
+        { path: "productdetails/:id/:category", element: <ProtectedRoute><ProductDetails /></ProtectedRoute> },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "*", element: <NotFound /> },
