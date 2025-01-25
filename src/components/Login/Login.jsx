@@ -4,13 +4,13 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../../Context/UserContext";
 
 export default function Login() {
   const [errorMsg, setErrorMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigateUser = useNavigate();
-  const { setIsLogin, setUserToken} = useContext(UserContext);
+  const { setIsLogin, setUserToken } = useContext(UserContext);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required("Email is required"),

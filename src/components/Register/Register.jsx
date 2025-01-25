@@ -4,7 +4,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import * as Yup from "yup";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../../Context/UserContext";
 
 export default function Register() {
   const [errorMsg, setErrorMsg] = useState("");

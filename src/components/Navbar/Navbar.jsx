@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import style from "./Navbar.module.css";
 import logo from "./../../assets/images/freshcart-logo.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { UserContext } from "../Context/UserContext";
+import { UserContext } from "../../Context/UserContext";
 export default function Navbar() {
   const { isLogin, setUserToken, setIsLogin } = useContext(UserContext);
   const navigate = useNavigate();
@@ -81,12 +81,14 @@ export default function Navbar() {
                   <li>
                     <Link to="register">Register</Link>
                   </li>
-                </>) :<li>
-                <span className="cursor-pointer"
-                onClick={handleLogout}>Signout</span>
-              </li>
-              }
-              
+                </>
+              ) : (
+                <li>
+                  <span className="cursor-pointer" onClick={handleLogout}>
+                    Signout
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
         </div>

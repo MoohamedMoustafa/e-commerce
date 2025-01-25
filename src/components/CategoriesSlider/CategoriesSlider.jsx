@@ -35,10 +35,11 @@ export default function CategoriesSlider() {
 
   return (
     <>
+    <h2 className="text-gray-600 font-semibold mt-4 mb-2 capitalize text-start pl-5">shop popular categories</h2>
       <Slider {...settings}>
         {categories.map(category => {
           return (
-            <div key={category.id} className="text-center ml-16 my-2">
+            <div key={category._id} className="text-center ml-16 my-2">
               <img src={category.image} alt={category.name} className="h-[200px] object-cover w-full" />
               <h3>{category.name}</h3>
 
