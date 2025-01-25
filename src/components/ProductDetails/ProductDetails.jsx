@@ -3,6 +3,7 @@ import style from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
+import Slider from "react-slick";
 
 export default function ProductDetails() {
   const { id, category } = useParams();
@@ -16,7 +17,7 @@ export default function ProductDetails() {
       .then((response) => {
         const product = response.data.data;
         setcurrentProduct(product);
-        console.log(product);
+        console.log("product ", product);
         setIsLoading(false);
       })
       .catch((error) => {
@@ -25,21 +26,44 @@ export default function ProductDetails() {
       });
   }
 
-
   useEffect(() => {
     getProduct();
   }, [id]);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
+    infinite: true,
+    cssEase: "linear",
+    arrows: false,
+  };
 
   return (
     <>
       {!isLoading ? (
         <div className="row items-center">
           <div className="md:w-1/4 px-2">
-            <img
+            {/* <img
               src={currentProduct?.imageCover}
               alt={currentProduct?.title}
               className="w-full"
-            />
+            /> */}
+            <Slider {...settings}>
+              {currentProduct.images?.map((img) => (
+                <img
+                  key={img}
+                  src={img}
+                  alt={currentProduct?.title}
+                  className="w-full"
+                />
+              ))}
+            </Slider>
           </div>
           <div className="md:w-3/4 px-2 text-start">
             <h3 className="font-semibold text-2xl">{currentProduct?.title}</h3>
@@ -64,8 +88,7 @@ export default function ProductDetails() {
           </div>
         </>
       )}
-    <RelatedProducts category={category}/>
-
+      <RelatedProducts category={category} />
     </>
   );
 }
