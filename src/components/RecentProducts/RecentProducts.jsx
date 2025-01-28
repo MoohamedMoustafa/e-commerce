@@ -7,20 +7,6 @@ import { ClipLoader } from "react-spinners";
 import ProductCard from "../ProductCard/ProductCard";
 
 export default function RecentProducts() {
-  /* const [products, setProducts] = useState([]);
-  function getAllProducts() {
-    axios
-      .get("https://ecommerce.routemisr.com/api/v1/products")
-      .then((response) => {
-        console.log(response.data.data);
-        setProducts(response.data.data);
-      })
-      .catch((err) => console.log(err));
-  }
-  useEffect(() => {
-    getAllProducts();
-  }, []); */
-
   async function getRecentProducts() {
     try {
       const response = await axios.get(
@@ -28,7 +14,7 @@ export default function RecentProducts() {
       );
       return response.data.data;
     } catch (err) {
-      throw new Error("fails to fetch recent products ", err);
+      throw new Error("fails to fetch recent products ", err.message);
     }
   }
   const {
@@ -49,9 +35,6 @@ export default function RecentProducts() {
   if (isLoading) {
     return (
       <>
-        {/* <div className="flex justify-center items-center min-h-screen w-full">
-          <span className="loader"></span>
-        </div> */}
         <div className="flex justify-center items-center min-h-screen w-full">
           <ClipLoader color={"green"} />
         </div>
