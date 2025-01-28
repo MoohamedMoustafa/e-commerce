@@ -60,7 +60,7 @@ export default function ProductDetails() {
                   key={img}
                   src={img}
                   alt={currentProduct?.title}
-                  className="w-full"
+                  className="w-full p-2"
                 />
               ))}
             </Slider>

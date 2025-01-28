@@ -13,6 +13,8 @@ import NotFound from "./components/NotFound/NotFound";
 import UserContextProvider from "./Context/UserContext";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import ProductDetails from "./components/ProductDetails/ProductDetails";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 function App() {
   const router = createBrowserRouter([
@@ -74,11 +76,16 @@ function App() {
       ],
     },
   ]);
+  const query = new QueryClient();
+
   return (
     <>
+    <QueryClientProvider client={query}>
       <UserContextProvider>
         <RouterProvider router={router} />
+        <ReactQueryDevtools />
       </UserContextProvider>
+    </QueryClientProvider>
     </>
   );
 }
