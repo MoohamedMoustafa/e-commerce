@@ -1,8 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./ProductCard.module.css";
 import { Link } from "react-router-dom";
+import { CartContext } from "../../Context/CartContext";
+import toast from "react-hot-toast";
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useContext(CartContext);
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function addProductToCart(productId) {
+    setIsLoading(true);
+    const response = await addToCart(productId);
+    console.log("respone from addProductToCart: ", response);
+    if (response.data.status === "success") {
+      toast.success("Product added to cart successfully");
+      setIsLoading(false);
+    } else {
+      toast.error("Failed to add product to cart");
+      setIsLoading(false);
+      console.error("Failed to add product to cart", response.data.message);
+    }
+  }
+
+
   return (
     <>
       <div key={product.id} className="sm:w-1/3 md:w-1/6 px-2">
@@ -25,7 +45,9 @@ export default function ProductCard({ product }) {
               </span>
             </div>
           </Link>
-          <button className="btn">Add To Cart</button>
+          <button className="btn" onClick={() => addProductToCart(product.id)} disabled={isLoading}>
+            {isLoading ? <i className="fa-solid fa-spinner fa-spin" spin="true"></i> : `Add To Cart`}
+          </button>
         </div>
       </div>
     </>

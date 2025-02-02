@@ -48,7 +48,7 @@ export default function Products() {
 
       <div className="row gap-y-8">
         {productList?.map((product) => (
-          <ProductCard product={product} />
+          <ProductCard product={product} key={product.id}/>
         ))}
       </div>
     </>

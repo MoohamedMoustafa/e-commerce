@@ -10,7 +10,7 @@ export default function CategoriesSlider() {
       .get("https://ecommerce.routemisr.com/api/v1/categories")
       .then((response) => {
         const categories = response.data.data;
-        console.log("categories", categories);
+        // console.log("categories", categories);
         setCategories(categories);
       })
       .catch((error) => console.log(error));
