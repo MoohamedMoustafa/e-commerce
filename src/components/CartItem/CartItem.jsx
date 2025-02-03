@@ -9,7 +9,7 @@ export default function CartItem({ item, deleteItem, updateCount }) {
     try {
       setIsLoading(true);
       await deleteItem(productId);
-      toast.success("Item Deleted Successfully")
+      toast.success("Item Deleted Successfully");
     } catch (error) {
       console.error("error from handleDelete", error.message);
     } finally {
@@ -21,7 +21,7 @@ export default function CartItem({ item, deleteItem, updateCount }) {
     try {
       setIsLoading(true);
       await updateCount(productId, count);
-      toast.success("Item Count Updated")
+      toast.success("Item Quantity Updated");
     } catch (error) {
       console.error("error in handleUpdateCount", error.message);
     } finally {
@@ -53,6 +53,7 @@ export default function CartItem({ item, deleteItem, updateCount }) {
 
   return (
     <>
+    
       <tr className="bg-white border-b  border-gray-200 hover:bg-gray-50 ">
         <td className="p-4">
           <img
@@ -68,6 +69,7 @@ export default function CartItem({ item, deleteItem, updateCount }) {
           <div className="flex items-center">
             <button
               onClick={() => handleUpdateCount(item.product.id, item.count - 1)}
+              disabled={isLoading}
               className="inline-flex items-center justify-center p-1 me-3 text-sm font-medium h-6 w-6 text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
               type="button"
             >
@@ -93,6 +95,7 @@ export default function CartItem({ item, deleteItem, updateCount }) {
             </div>
             <button
               onClick={() => handleUpdateCount(item.product.id, item.count + 1)}
+              disabled={isLoading}
               className="inline-flex items-center justify-center h-6 w-6 p-1 ms-3 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-full focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 "
               type="button"
             >
@@ -122,8 +125,9 @@ export default function CartItem({ item, deleteItem, updateCount }) {
           <span
             className="font-medium text-red-600  hover:underline cursor-pointer"
             onClick={() => handleDeleteItem(item.product.id)}
+            disabled={isLoading}
           >
-            {isLoading? spinner : "Remove"}
+            Remove
           </span>
         </td>
       </tr>

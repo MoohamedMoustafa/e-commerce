@@ -15,6 +15,7 @@ export default function Cart() {
     setIsLoading(true);
     const response = await getCart();
     if (response.data.status === "success") {
+      console.log("cartDetails", response.data);
       setCartDetails(response.data);
       setIsLoading(false);
       console.log("response fron getCartItems", response.data.data.products);
@@ -39,10 +40,12 @@ export default function Cart() {
   }
 
   async function updateCount(productId, count) {
-    try {const response = await uptadeProductCount(productId, count);
-    if (response.data.status === "success") {
-      setCartDetails(response.data);
-    }} catch(error) {
+    try {
+      const response = await uptadeProductCount(productId, count);
+      if (response.data.status === "success") {
+        setCartDetails(response.data);
+      }
+    } catch (error) {
       console.error("error from updateCount", error.message);
     }
   }
@@ -77,6 +80,9 @@ export default function Cart() {
     );
   return (
     <>
+      <h3 className="text-lg font-semibold text-center py-3 px-4 bg-gray-50 rounded-lg shadow-sm mb-6 w-full md:w-1/3 mx-auto">
+        Total Price: {cartDetails.data.totalCartPrice} EGP
+      </h3>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
