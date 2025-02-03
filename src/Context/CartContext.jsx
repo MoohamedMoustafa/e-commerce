@@ -47,8 +47,22 @@ export default function CartContextProvider({ children }) {
     }
   }
 
+  async function uptadeProductCount(productId, count) {
+    try {
+      const respone = await axios.put(
+        `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
+        { count: count },
+        { headers: headers }
+      );
+      return respone;
+    } catch (error) {
+      console.error("error in updateProductCount", error.message);
+      return error;
+    }
+  }
+
   return (
-    <CartContext.Provider value={{ addToCart, getCart, deleteCartItem }}>
+    <CartContext.Provider value={{ addToCart, getCart, deleteCartItem, uptadeProductCount}}>
       {children}
     </CartContext.Provider>
   );
