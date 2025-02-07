@@ -17,6 +17,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import CartContextProvider, { CartContext } from "./Context/CartContext";
 import  { Toaster } from 'react-hot-toast';
+import Checkout from './components/Checkout/Checkout';
 
 function App() {
   const router = createBrowserRouter([
@@ -69,6 +70,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <ProductDetails />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "checkout",
+          element: (
+            <ProtectedRoute>
+              <Checkout />
             </ProtectedRoute>
           ),
         },

@@ -61,8 +61,24 @@ export default function CartContextProvider({ children }) {
     }
   }
 
+  async function checkout(cartId, url, values) {
+    try {
+      const response = await axios.post(
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cartId}?url=${url}`,
+        { shippingAddress: values },
+        { headers: headers }
+      );
+      return response;
+    } catch (error) {
+      console.error("error in checkout: ", error.message);
+      return error;
+    }
+  }
+
   return (
-    <CartContext.Provider value={{ addToCart, getCart, deleteCartItem, uptadeProductCount}}>
+    <CartContext.Provider
+      value={{ addToCart, getCart, deleteCartItem, uptadeProductCount , checkout}}
+    >
       {children}
     </CartContext.Provider>
   );

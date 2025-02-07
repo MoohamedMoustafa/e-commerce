@@ -27,7 +27,7 @@ export default function ProductCard({ product }) {
     <>
       <div key={product.id} className="sm:w-1/3 md:w-1/6 px-2">
         <div className="product px-2 py-1">
-          <Link to={`productdetails/${product.id}/${product.category?.name}`}>
+          <Link to={`/productdetails/${product.id}/${product.category?.name}`}>
             <img
               src={product.imageCover}
               alt={product.title}

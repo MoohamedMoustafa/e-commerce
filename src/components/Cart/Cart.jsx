@@ -118,6 +118,9 @@ export default function Cart() {
           </tbody>
         </table>
       </div>
+      <Link to="/checkout" state={{ cartId: cartDetails.cartId }}>
+        <button className="btn my-5 ">Check out Now</button>
+      </Link>
     </>
   );
 }

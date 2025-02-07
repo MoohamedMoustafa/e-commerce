@@ -4,7 +4,6 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function RelatedProducts({ category }) {
-  const [counter, setCounter] = useState(0);
   const [relatedProducts, setRelatedProducts] = useState([]); // new
 
   
@@ -28,7 +27,7 @@ export default function RelatedProducts({ category }) {
   return (
     <>
       {/* related poroducts  */}
-      <div className="row gap-y-8">
+      <div className="row gap-y-8 my-10">
         {relatedProducts.length > 0 ? (
           relatedProducts.map((product) => (
             <div key={product.id} className="md:w-1/6 px-2 ">
