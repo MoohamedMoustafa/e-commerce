@@ -1,9 +1,10 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 
 export const CartContext = createContext();
 
 export default function CartContextProvider({ children }) {
+  const [numOfCartItems, setNumOfCartItems] = useState(null);
   const headers = {
     token: localStorage.getItem("UserToken"),
   };
@@ -14,6 +15,7 @@ export default function CartContextProvider({ children }) {
         { productId: productId },
         { headers: headers }
       );
+      setNumOfCartItems(response.data.numOfCartItems);
       return response;
     } catch (error) {
       console.error("Error adding product to cart:", error.message);
@@ -27,6 +29,8 @@ export default function CartContextProvider({ children }) {
         `https://ecommerce.routemisr.com/api/v1/cart`,
         { headers: headers }
       );
+      setNumOfCartItems(response.data.numOfCartItems);
+      console.log("num of cart items", response.data.numOfCartItems);
       return response;
     } catch (error) {
       console.error("Error getting cart:", error.message);
@@ -40,6 +44,7 @@ export default function CartContextProvider({ children }) {
         `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
         { headers: headers }
       );
+      setNumOfCartItems(response.data.numOfCartItems);
       return response;
     } catch (error) {
       console.error("error in deleteCartItem: ", error.message);
@@ -49,12 +54,13 @@ export default function CartContextProvider({ children }) {
 
   async function uptadeProductCount(productId, count) {
     try {
-      const respone = await axios.put(
+      const response = await axios.put(
         `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
         { count: count },
         { headers: headers }
       );
-      return respone;
+      setNumOfCartItems(response.data.numOfCartItems);
+      return response;
     } catch (error) {
       console.error("error in updateProductCount", error.message);
       return error;
@@ -77,7 +83,14 @@ export default function CartContextProvider({ children }) {
 
   return (
     <CartContext.Provider
-      value={{ addToCart, getCart, deleteCartItem, uptadeProductCount , checkout}}
+      value={{
+        addToCart,
+        getCart,
+        deleteCartItem,
+        uptadeProductCount,
+        checkout,
+        numOfCartItems,
+      }}
     >
       {children}
     </CartContext.Provider>

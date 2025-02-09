@@ -3,8 +3,10 @@ import style from "./Navbar.module.css";
 import logo from "./../../assets/images/freshcart-logo.svg";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../Context/UserContext";
+import { CartContext } from "../../Context/CartContext";
 export default function Navbar() {
   const { isLogin, setUserToken, setIsLogin } = useContext(UserContext);
+  const { numOfCartItems } = useContext(CartContext);
   const navigate = useNavigate();
   function handleLogout() {
     localStorage.removeItem("UserToken");
@@ -32,8 +34,11 @@ export default function Navbar() {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink className="text-slate-600" to="cart">
+                  <NavLink className="text-slate-600 relative" to="cart">
                     Cart
+                    <div className="absolute top-[-11px] right-[-11px] size-4 text-white bg-red-500 rounded-full text-xs flex items-center justify-center">
+                      {numOfCartItems}
+                    </div>
                   </NavLink>
                 </li>
                 <li>
