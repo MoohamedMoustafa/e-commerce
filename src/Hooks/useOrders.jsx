@@ -19,6 +19,7 @@ export default function useOrders() {
       const response = await axios.get(
         `https://ecommerce.routemisr.com/api/v1/orders/user/${userId}`
       );
+      console.log("orders response:", response.data);
       return response;
     } catch (err) {
       console.error("error from Orders: ", err.message);
