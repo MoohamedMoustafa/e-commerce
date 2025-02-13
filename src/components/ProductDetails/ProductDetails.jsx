@@ -1,33 +1,21 @@
 import React, { useEffect, useState } from "react";
 import style from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import Slider from "react-slick";
+import useSpeceficProduct from "../../Hooks/useSpeceficProduct";
+import { ClipLoader } from "react-spinners";
 
 export default function ProductDetails() {
   const { id, category } = useParams();
-  const [isLoading, setIsLoading] = useState(false);
   const [currentProduct, setcurrentProduct] = useState([]);
 
-  function getProduct() {
-    setIsLoading(true);
-    axios
-      .get(`https://ecommerce.routemisr.com/api/v1/products/${id}`)
-      .then((response) => {
-        const product = response.data.data;
-        setcurrentProduct(product);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsLoading(false);
-      });
-  }
-
+  const { data: product, isLoading, isError, error } = useSpeceficProduct(id);
   useEffect(() => {
-    getProduct();
-  }, [id]);
+    if (product) {
+      setcurrentProduct(product);
+    }
+  }, [product]);
 
   const settings = {
     dots: true,
@@ -43,9 +31,33 @@ export default function ProductDetails() {
     arrows: false,
   };
 
+  if (isLoading) {
+    return (
+      <>
+        <div className="flex justify-center items-center min-h-screen w-full">
+          <ClipLoader color={"green"} />
+        </div>
+      </>
+    );
+  }
+
+  if (isError) {
+    console.error("error from ProductDetails: ", error);
+    return (
+      <>
+        <div
+          class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 "
+          role="alert"
+        >
+          <span class="font-medium">{error}</span>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
-      {!isLoading ? (
+      {
         <div className="row items-center">
           <div className="md:w-1/4 px-2">
             {/* <img
@@ -80,13 +92,7 @@ export default function ProductDetails() {
             <button className="btn">Add To Cart</button>
           </div>
         </div>
-      ) : (
-        <>
-          <div className="flex justify-center items-center min-h-screen w-full">
-            <span className="loader"></span>
-          </div>
-        </>
-      )}
+      }
       <RelatedProducts category={category} />
     </>
   );
