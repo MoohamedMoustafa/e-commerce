@@ -4,11 +4,13 @@ import { CartContext } from "../../Context/CartContext";
 import { Link } from "react-router-dom";
 import CartItem from "../CartItem/CartItem";
 import { ClipLoader } from "react-spinners";
+import toast from "react-hot-toast";
 
 export default function Cart() {
   const [cartDetails, setCartDetails] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const { getCart, deleteCartItem, uptadeProductCount } =
+  const [isClearing, setIsClearing] = useState(false);
+  const { getCart, deleteCartItem, uptadeProductCount, clearCart } =
     useContext(CartContext);
 
   async function getCartItems() {
@@ -47,6 +49,26 @@ export default function Cart() {
       }
     } catch (error) {
       console.error("error from updateCount", error.message);
+    }
+  }
+  async function handleClearCart() {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to clear the cart?"
+    );
+    if (!isConfirmed) return;
+
+    try {
+      setIsClearing(true);
+      const response = await clearCart();
+      if (response.data.status === "success") {
+        toast.success("Cart cleared successfully");
+        await getCartItems();
+      }
+    } catch (error) {
+      console.error("Failed to clear cart", error.message);
+      toast.error("Failed to clear cart");
+    } finally {
+      setIsClearing(false);
     }
   }
 
@@ -119,8 +141,56 @@ export default function Cart() {
         </table>
       </div>
       <Link to="/checkout" state={{ cartId: cartDetails.cartId }}>
-        <button className="btn my-5 ">Check out Now</button>
+        <button className="btn mt-5 ">Check out Now</button>
       </Link>
+      <button
+      onClick={handleClearCart}
+      disabled={isClearing}
+      className="btn-danger mt-5 bg-red-500 "
+    >
+      {isClearing ? (
+        <i className="fa-solid fa-spinner fa-spin" spin="true"></i>
+      ) : (
+        `Clear Cart`
+      )}
+    </button>
     </>
   );
 }
+
+// function ClearCartButton({ onClearCart, setCartDetails }) {
+//   const [isClearing, setIsClearing] = useState(false);
+//   async function handleClearCart() {
+//     const isConfirmed = window.confirm(
+//       "Are you sure you want to clear the cart?"
+//     );
+//     if (!isConfirmed) return;
+
+//     try {
+//       setIsClearing(true);
+//       const response = await onClearCart();
+//       if (response.data.status === "success") {
+//         toast.success("Cart cleared successfully");
+//         setCartDetails({});
+//       }
+//     } catch (error) {
+//       console.error("Failed to clear cart", error.message);
+//       toast.error("Failed to clear cart");
+//     } finally {
+//       setIsClearing(false);
+//     }
+//   }
+//   return (
+//     <button
+//       onClick={handleClearCart}
+//       disabled={isClearing}
+//       className="btn-danger mt-5 bg-red-500 "
+//     >
+//       {isClearing ? (
+//         <i className="fa-solid fa-spinner fa-spin" spin="true"></i>
+//       ) : (
+//         `Clear Cart`
+//       )}
+//     </button>
+//   );
+// }

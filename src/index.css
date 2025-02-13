@@ -47,6 +47,10 @@ a , a:hover{
     color: var(--light-color);
     @apply px-4 py-1 rounded-lg w-full;
 }
+.btn-danger {
+    color: var(--light-color);
+    @apply px-4 py-1 rounded-lg w-full bg-red-500;
+}
 .product:hover .btn 
 {
     opacity: 1;

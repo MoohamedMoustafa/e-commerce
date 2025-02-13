@@ -81,6 +81,20 @@ export default function CartContextProvider({ children }) {
     }
   }
 
+  async function clearCart() {
+    try {
+      const response = await axios.delete(
+        `https://ecommerce.routemisr.com/api/v1/cart`,
+        { headers: headers }
+      );
+      setNumOfCartItems(response.data.numOfCartItems);
+      return response;
+    } catch (error) {
+      console.error("error in clearCart: ", error.message);
+      return error;
+    }
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -90,6 +104,7 @@ export default function CartContextProvider({ children }) {
         uptadeProductCount,
         checkout,
         numOfCartItems,
+        clearCart,
       }}
     >
       {children}
