@@ -16,8 +16,9 @@ import ProductDetails from "./components/ProductDetails/ProductDetails";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import CartContextProvider, { CartContext } from "./Context/CartContext";
-import  { Toaster } from 'react-hot-toast';
-import Checkout from './components/Checkout/Checkout';
+import { Toaster } from "react-hot-toast";
+import Checkout from "./components/Checkout/Checkout";
+import AllOrders from "./components/AllOrders/AllOrders";
 
 function App() {
   const router = createBrowserRouter([
@@ -78,6 +79,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <Checkout />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "allorders",
+          element: (
+            <ProtectedRoute>
+              <AllOrders />
             </ProtectedRoute>
           ),
         },

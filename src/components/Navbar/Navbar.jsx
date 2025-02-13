@@ -36,9 +36,11 @@ export default function Navbar() {
                 <li>
                   <NavLink className="text-slate-600 relative" to="cart">
                     Cart
-                    <div className="absolute top-[-11px] right-[-11px] size-4 text-white bg-red-500 rounded-full text-xs flex items-center justify-center">
-                      {numOfCartItems}
-                    </div>
+                    {numOfCartItems > 0 && (
+                      <div className="absolute top-[-11px] right-[-11px] size-4 text-white bg-red-500 rounded-full text-xs flex items-center justify-center">
+                        {numOfCartItems}
+                      </div>
+                    )}
                   </NavLink>
                 </li>
                 <li>
