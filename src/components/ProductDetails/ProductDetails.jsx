@@ -17,7 +17,6 @@ export default function ProductDetails() {
       .then((response) => {
         const product = response.data.data;
         setcurrentProduct(product);
-        console.log("product ", product);
         setIsLoading(false);
       })
       .catch((error) => {

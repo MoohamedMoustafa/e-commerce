@@ -18,7 +18,7 @@ export default function AllOrders() {
   }
 
   if (isError) {
-    console.error("error from RecentProducts: ", error);
+    console.error("error from AllOrders: ", error);
     return (
       <>
         <div
@@ -33,7 +33,9 @@ export default function AllOrders() {
 
   return (
     <>
-      <>
+      <h3 className="text-emerald-600 text-2xl font-semibold text-center py-3 px-2  rounded-lg  mb-6 w-full md:w-1/3 mx-auto">
+        Your Orders
+      </h3>
         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
@@ -73,7 +75,7 @@ export default function AllOrders() {
         <button className="btn my-5 ">Check out Now</button>
       </Link> */}
       </>
-    </>
+    
   );
 }
 
