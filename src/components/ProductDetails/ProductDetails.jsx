@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./ProductDetails.module.css";
 import { Link, useParams } from "react-router-dom";
 import RelatedProducts from "../RelatedProducts/RelatedProducts";
 import Slider from "react-slick";
 import useSpeceficProduct from "../../Hooks/useSpeceficProduct";
 import { ClipLoader } from "react-spinners";
+import { CartContext } from "../../Context/CartContext";
+import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const { id, category } = useParams();
   const [currentProduct, setcurrentProduct] = useState([]);
-
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const { data: product, isLoading, isError, error } = useSpeceficProduct(id);
-  useEffect(() => {
-    if (product) {
-      setcurrentProduct(product);
-    }
-  }, [product]);
+  const { addToCart } = useContext(CartContext);
 
   const settings = {
     dots: true,
@@ -30,6 +28,29 @@ export default function ProductDetails() {
     cssEase: "linear",
     arrows: false,
   };
+
+  useEffect(() => {
+    if (product) {
+      setcurrentProduct(product);
+    }
+  }, [product]);
+
+  async function handleAddToCart() {
+    try {
+      setIsAddingToCart(true);
+      const response = await addToCart(id);
+      console.log("response from add to cart: ", response);
+      if (response.data.status === "success") {
+        toast.success("Product added to cart successfully");
+      } else {
+        toast.error("Failed to add product to cart");
+      }
+    } catch (err) {
+      console.error("error from handleAddToCart: ", err);
+    } finally {
+      setIsAddingToCart(false);
+    }
+  }
 
   if (isLoading) {
     return (
@@ -89,7 +110,17 @@ export default function ProductDetails() {
                 {currentProduct.ratingsAverage}
               </span>
             </div>
-            <button className="btn">Add To Cart</button>
+            <button
+              className="btn"
+              onClick={handleAddToCart}
+              disabled={isAddingToCart}
+            >
+              {isAddingToCart ? (
+                <i className="fa-solid fa-spinner fa-spin" spin="true"></i>
+              ) : (
+                `Add To Cart`
+              )}
+            </button>
           </div>
         </div>
       }
