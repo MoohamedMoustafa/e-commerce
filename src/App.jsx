@@ -21,6 +21,7 @@ import Checkout from "./components/Checkout/Checkout";
 import AllOrders from "./components/AllOrders/AllOrders";
 import WishListContextProvider from "./Context/WishListContext";
 import WishLsit from "./components/WishLsit/WishLsit";
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 
 function App() {
   const router = createBrowserRouter([
@@ -102,6 +103,7 @@ function App() {
         },
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
+        { path: "forgotpassword", element: <ForgotPassword /> },
         { path: "*", element: <NotFound /> },
       ],
     },
