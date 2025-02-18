@@ -60,9 +60,9 @@ export default function Cart() {
     try {
       setIsClearing(true);
       const response = await clearCart();
-      if (response.data.status === "success") {
+      if (response.data.message === "success") {
         toast.success("Cart cleared successfully");
-        await getCartItems();
+        setCartDetails({});
       }
     } catch (error) {
       console.error("Failed to clear cart", error.message);
@@ -144,16 +144,16 @@ export default function Cart() {
         <button className="btn mt-5 ">Check out Now</button>
       </Link>
       <button
-      onClick={handleClearCart}
-      disabled={isClearing}
-      className="btn-danger mt-5 bg-red-500 "
-    >
-      {isClearing ? (
-        <i className="fa-solid fa-spinner fa-spin" spin="true"></i>
-      ) : (
-        `Clear Cart`
-      )}
-    </button>
+        onClick={handleClearCart}
+        disabled={isClearing}
+        className="btn-danger mt-5 bg-red-500 "
+      >
+        {isClearing ? (
+          <i className="fa-solid fa-spinner fa-spin" spin="true"></i>
+        ) : (
+          `Clear Cart`
+        )}
+      </button>
     </>
   );
 }

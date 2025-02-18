@@ -54,7 +54,7 @@ export default function RelatedProducts({ category }) {
             <ProductCard product={product} key={product.id} />
           ))
         }
-      </div>
+      </div> 
     </>
   );
 }
