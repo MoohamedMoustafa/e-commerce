@@ -22,6 +22,7 @@ import AllOrders from "./components/AllOrders/AllOrders";
 import WishListContextProvider from "./Context/WishListContext";
 import WishLsit from "./components/WishLsit/WishLsit";
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ConfirmCode from './components/ConfirmCode/ConfirmCode';
 
 function App() {
   const router = createBrowserRouter([
@@ -104,6 +105,7 @@ function App() {
         { path: "login", element: <Login /> },
         { path: "register", element: <Register /> },
         { path: "forgotpassword", element: <ForgotPassword /> },
+        { path: "confirmcode", element: <ConfirmCode /> },
         { path: "*", element: <NotFound /> },
       ],
     },
