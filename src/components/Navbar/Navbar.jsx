@@ -58,6 +58,11 @@ export default function Navbar() {
                     Brands
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink className="text-slate-600" to="wishlist">
+                    WishList
+                  </NavLink>
+                </li>
               </ul>
             )}
           </div>

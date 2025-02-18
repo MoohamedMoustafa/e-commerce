@@ -20,6 +20,7 @@ import { Toaster } from "react-hot-toast";
 import Checkout from "./components/Checkout/Checkout";
 import AllOrders from "./components/AllOrders/AllOrders";
 import WishListContextProvider from "./Context/WishListContext";
+import WishLsit from "./components/WishLsit/WishLsit";
 
 function App() {
   const router = createBrowserRouter([
@@ -64,6 +65,14 @@ function App() {
           element: (
             <ProtectedRoute>
               <Categories />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: "wishlist",
+          element: (
+            <ProtectedRoute>
+              <WishLsit />
             </ProtectedRoute>
           ),
         },
