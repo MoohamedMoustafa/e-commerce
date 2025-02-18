@@ -22,10 +22,10 @@ export default function AllOrders() {
     return (
       <>
         <div
-          class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 "
+          className="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 "
           role="alert"
         >
-          <span class="font-medium">{error}</span>
+          <span className="font-medium">{error}</span>
         </div>
       </>
     );

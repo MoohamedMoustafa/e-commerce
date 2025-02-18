@@ -41,7 +41,7 @@ export default function WishLsit() {
   }
 
   useEffect(() => {
-    getUerWishList();
+    getUerWishList();    
   }, []);
 
   if (isLoading)
@@ -52,7 +52,7 @@ export default function WishLsit() {
     );
 
 
-    if (!wishList?.data?.products || wishList.data.products.length === 0)
+    if (wishList?.length === 0)
       return (
         <>
           <div className="flex flex-col items-center justify-center gap-6 p-8">

@@ -1,9 +1,10 @@
 import axios from "axios";
-import { createContext } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export const WishListContext = createContext();
 
 export default function WishListContextProvider({ children }) {
+  const [wishList, setWishList] = useState([]);
   const headers = {
     token: localStorage.getItem("UserToken"),
   };
@@ -14,6 +15,7 @@ export default function WishListContextProvider({ children }) {
         "https://ecommerce.routemisr.com/api/v1/wishlist",
         { headers: headers }
       );
+      setWishList(response.data.data);
       return response;
     } catch (error) {
       console.error("Error fetching wishlist:", error.message);
@@ -27,6 +29,7 @@ export default function WishListContextProvider({ children }) {
         { productId: productId },
         { headers: headers }
       );
+      await getWishList();
       return response;
     } catch (error) {
       console.error("Error adding product to wishlist:", error.message);
@@ -39,14 +42,20 @@ export default function WishListContextProvider({ children }) {
         `https://ecommerce.routemisr.com/api/v1/wishlist/${productId}`,
         { headers: headers }
       );
+      await getWishList();
       return response;
     } catch (error) {
       console.error("Error removing product from wishlist:", error.message);
     }
   }
+  useEffect(() => {
+    getWishList()
+  }, []);
 
   return (
-    <WishListContext.Provider value={{ AddToWishList, getWishList, removeFromWishList }}>
+    <WishListContext.Provider
+      value={{ AddToWishList, getWishList, removeFromWishList, wishList }}
+    >
       {children}
     </WishListContext.Provider>
   );

@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import style from "./RecentProducts.module.css";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import { ClipLoader } from "react-spinners";
 import ProductCard from "../ProductCard/ProductCard";
 import useProducts from "../../Hooks/useProducts";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function RecentProducts() {
-  const {data: productList,
+  const {
+    data: productList,
     isError,
     isLoading,
     error,
-    isFetching,} = useProducts();
+    isFetching,
+  } = useProducts();
+  const { wishList } = useContext(WishListContext);
+  useEffect(() => {
+    console.log("wishList from RecentProducts: ", wishList);
+  }, [wishList]);
 
+  //function to check if product is inside wishList
+  function isProductInWishList(productId) {
+    return wishList?.some((product) => product.id === productId);
+  }
   if (isLoading) {
     return (
       <>
@@ -42,7 +50,7 @@ export default function RecentProducts() {
     <>
       <div className="row gap-y-8">
         {productList?.map((product) => (
-          <ProductCard product={product} key={product.id}/>
+          <ProductCard product={product} key={product.id} isProductInWishList={isProductInWishList(product.id)} />
         ))}
       </div>
     </>

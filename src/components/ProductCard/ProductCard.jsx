@@ -5,10 +5,11 @@ import { CartContext } from "../../Context/CartContext";
 import toast from "react-hot-toast";
 import { WishListContext } from "../../Context/WishListContext";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, isProductInWishList }) {
   const { addToCart } = useContext(CartContext);
-  const { AddToWishList } = useContext(WishListContext);
+  const { AddToWishList, removeFromWishList } = useContext(WishListContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [isHandlingWishList, setIsHandlingWishList] = useState(false);
   async function addProductToCart(productId) {
     setIsLoading(true);
     const response = await addToCart(productId);
@@ -22,15 +23,24 @@ export default function ProductCard({ product }) {
       console.error("Failed to add product to cart", response.data.message);
     }
   }
-
-  async function addProductToWishList(productId) {
-    const response = await AddToWishList(productId);
-    console.log("respone from addProductToWishList: ", response);
-    if (response.data.status === "success") {
-      toast.success("Product added to wishlist successfully");
-    } else {
-      toast.error("Failed to add product to wishlist");
-      console.error("Failed to add product to wishlist", response.data.message);
+  //function to toggle wishlist click
+  async function handleWishListClick(productId) {
+    setIsHandlingWishList(true);
+    try {
+      if (isProductInWishList) {
+        await removeFromWishList(productId);
+        toast.success("Product removed from wishlist");
+      } else {
+        await AddToWishList(productId);
+        toast.success("Product added to wishlist");
+      }
+    } catch (error) {
+      console.error(
+        "Error adding/removing product from wishlist: ",
+        error.message
+      );
+    } finally {
+      setIsHandlingWishList(false);
     }
   }
 
@@ -56,8 +66,19 @@ export default function ProductCard({ product }) {
               </span>
             </div>
           </Link>
-          <span className="cursor-pointer" onClick={() => addProductToWishList(product.id)}>
-            <i className="fa-solid fa-heart"></i>
+          <span
+            className="cursor-pointer"
+            onClick={() => handleWishListClick(product.id)}
+          >
+            {isHandlingWishList ? (
+              <i className="fa-solid fa-spinner fa-spin" spin="true"></i>
+            ) : (
+              <i
+                className={`fa-solid fa-heart ${
+                  isProductInWishList ? "text-red-600" : "text-black"
+                }`}
+              ></i>
+            )}
           </span>
           <button
             className="btn"
