@@ -1,13 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./WishLsit.module.css";
 import { WishListContext } from "../../Context/WishListContext";
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from "react-spinners";
+import toast from "react-hot-toast";
+import { Link } from 'react-router-dom';
 
 export default function WishLsit() {
   const [wishList, setWishList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { getWishList } = useContext(WishListContext);
+  const { getWishList, removeFromWishList } = useContext(WishListContext);
 
   async function getUerWishList() {
     setIsLoading(true);
@@ -18,8 +20,23 @@ export default function WishLsit() {
       setWishList(response.data.data);
     } catch (error) {
       console.error("Error fetching wishlist:", error.message);
-    } finally{
+    } finally {
       setIsLoading(false);
+    }
+  }
+
+  async function handleDeleteItem(productId) {
+    try {
+      const respone = await removeFromWishList(productId);
+      console.log("respone from removeFromWishList", respone);
+      if(respone.data.status === "success") {
+        console.log("Product removed from wishlist");
+        
+        toast.success("Product removed from wishlist");
+        await getUerWishList();
+      }
+    } catch (error) {
+      console.error("Error removing product from wishlist:", error.message);
     }
   }
 
@@ -34,6 +51,25 @@ export default function WishLsit() {
       </div>
     );
 
+
+    if (!wishList?.data?.products || wishList.data.products.length === 0)
+      return (
+        <>
+          <div className="flex flex-col items-center justify-center gap-6 p-8">
+            <div className="flex justify-center items-center min-h-[60vh] w-full text-xl font-semibold text-gray-600 bg-gray-50 rounded-lg shadow-sm border border-gray-200 p-8">
+              No items in Wish List
+            </div>
+            <div className="text-center">
+              <Link
+                to="/products"
+                className="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-slate-50 bg-emerald-500 hover:bg-emerald-600 rounded-md transition-colors duration-200"
+              >
+                Check new products now
+              </Link>
+            </div>
+          </div>
+        </>
+      );
 
   return (
     <>
@@ -62,18 +98,8 @@ export default function WishLsit() {
             </tr>
           </thead>
           <tbody>
-            {/* {cartDetails?.data.products.map((item) => {
-              return (
-                <CartItem
-                  item={item}
-                  key={item._id}
-                  deleteItem={deleteItem}
-                  updateCount={updateCount}
-                />
-              );
-            })} */}
             {wishList.map((product) => {
-              return <WishListItem key={product._id} product={product} />;
+              return <WishListItem key={product._id} product={product} onDeleteitem={handleDeleteItem} />;
             })}
           </tbody>
         </table>
@@ -82,7 +108,7 @@ export default function WishLsit() {
   );
 }
 
-function WishListItem({ product }) {
+function WishListItem({ product, onDeleteitem }) {
   return (
     <>
       <tr className="bg-white border-b  border-gray-200 hover:bg-gray-50 ">
@@ -98,7 +124,7 @@ function WishListItem({ product }) {
         </td>
         <td className="px-6 py-4">{product.price} </td>
         <td className="px-6 py-4 font-semibold text-gray-900 ">
-          <span className="text-red-500 cursor-pointer">Remove</span>
+          <span className="text-red-500 cursor-pointer" onClick={() => onDeleteitem(product.id)}>Remove</span>
         </td>
         <td className="px-6 py-4">
           <span className="text-green-500 cursor-pointer">Add To Cart</span>
