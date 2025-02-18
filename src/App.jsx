@@ -19,6 +19,7 @@ import CartContextProvider, { CartContext } from "./Context/CartContext";
 import { Toaster } from "react-hot-toast";
 import Checkout from "./components/Checkout/Checkout";
 import AllOrders from "./components/AllOrders/AllOrders";
+import WishListContextProvider from "./Context/WishListContext";
 
 function App() {
   const router = createBrowserRouter([
@@ -100,15 +101,17 @@ function App() {
 
   return (
     <>
-      <CartContextProvider>
-        <QueryClientProvider client={query}>
-          <UserContextProvider>
-            <RouterProvider router={router} />
-            <Toaster />
-            <ReactQueryDevtools />
-          </UserContextProvider>
-        </QueryClientProvider>
-      </CartContextProvider>
+      <WishListContextProvider>
+        <CartContextProvider>
+          <QueryClientProvider client={query}>
+            <UserContextProvider>
+              <RouterProvider router={router} />
+              <Toaster />
+              <ReactQueryDevtools />
+            </UserContextProvider>
+          </QueryClientProvider>
+        </CartContextProvider>
+      </WishListContextProvider>
     </>
   );
 }

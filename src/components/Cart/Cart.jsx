@@ -58,7 +58,7 @@ export default function Cart() {
     if (!isConfirmed) return;
 
     try {
-      setIsClearing(true);
+      setIsClearing(true);  
       const response = await clearCart();
       if (response.data.message === "success") {
         toast.success("Cart cleared successfully");
