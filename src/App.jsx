@@ -23,6 +23,7 @@ import WishListContextProvider from "./Context/WishListContext";
 import WishLsit from "./components/WishLsit/WishLsit";
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ConfirmCode from './components/ConfirmCode/ConfirmCode';
+import ResetPassword from "./components/ResetPassword/ResetPassword";
 
 function App() {
   const router = createBrowserRouter([
@@ -106,6 +107,7 @@ function App() {
         { path: "register", element: <Register /> },
         { path: "forgotpassword", element: <ForgotPassword /> },
         { path: "confirmcode", element: <ConfirmCode /> },
+        { path: "resetpassword", element: <ResetPassword /> },
         { path: "*", element: <NotFound /> },
       ],
     },

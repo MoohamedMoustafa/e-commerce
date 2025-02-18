@@ -2,11 +2,9 @@ import React, { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import * as Yup from "yup";
-import { UserContext } from "../../Context/UserContext";
+import toast from "react-hot-toast";
 
 export default function ConfirmCode() {
-  const [msg, setMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigateUser = useNavigate();
 
@@ -18,18 +16,17 @@ export default function ConfirmCode() {
       .post("https://ecommerce.routemisr.com/api/v1/auth/verifyResetCode", values)
       .then((res) => {
         setIsLoading(false);
-        setMsg("");
         console.log("respone from handleComfirCode",res);
 
         if (res.data.status === "Success") {
-          setMsg(res.data.message)
-          navigateUser("/newpassword");
+          toast.success("Code Verified");
+          navigateUser("/resetpassword");
         }
       })
       .catch((error) => {
         setIsLoading(false);
         console.error("error in ConfirmCode: ", error);
-        
+        toast.error("Invalid Code");
       });
   }
 
@@ -42,11 +39,7 @@ export default function ConfirmCode() {
 
   return (
     <>
-      {msg && (
-        <div className="lg:w-5/12 mx-auto bg-green-200 text-green-800 font-bold rounded-lg p-2 mb-2">
-          {msg}
-        </div>
-      )}
+
       <h1 className="text-center text-2xl font-bold mb-5 text-emerald-700">
         Please Enter The Code Sent To Your Email
       </h1>
@@ -68,7 +61,7 @@ export default function ConfirmCode() {
             htmlFor="resetCode"
             className="peer-focus:font-medium absolute left-0 text-sm text-gray-500  duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-emerald-600  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
           >
-            Your Email
+            Code
           </label>
         </div>
         
