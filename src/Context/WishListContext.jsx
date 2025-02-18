@@ -7,6 +7,18 @@ export default function WishListContextProvider({ children }) {
   const headers = {
     token: localStorage.getItem("UserToken"),
   };
+
+  async function getWishList() {
+    try {
+      const response = await axios.get('https://ecommerce.routemisr.com/api/v1/wishlist', { headers: headers });
+      return response;
+    } catch (error) {
+      console.error("Error fetching wishlist:", error.message);
+    }
+  }
+
+
+
   async function AddToWishList(productId) {
     try {
       const response = await axios.post(
@@ -21,7 +33,7 @@ export default function WishListContextProvider({ children }) {
   }
 
   return (
-    <WishListContext.Provider value={{ AddToWishList }}>
+    <WishListContext.Provider value={{ AddToWishList, getWishList }}>
       {children}
     </WishListContext.Provider>
   );
