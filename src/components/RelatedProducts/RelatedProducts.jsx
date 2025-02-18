@@ -1,15 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./RelatedProducts.module.css";
-import { Link } from "react-router-dom";
 import useProducts from "./../../Hooks/useProducts";
-import { ClipLoader } from 'react-spinners';
+import { ClipLoader } from "react-spinners";
 import ProductCard from "../ProductCard/ProductCard";
+import { WishListContext } from "../../Context/WishListContext";
 
 export default function RelatedProducts({ category }) {
   const [relatedProducts, setRelatedProducts] = useState([]); // new
 
   const { data: productList, isError, isLoading, error } = useProducts();
-
+  const { wishList } = useContext(WishListContext);
+  function isProductInWishList(productId) {
+    return wishList?.some((product) => product.id === productId);
+  }
   useEffect(() => {
     if (productList && productList.length > 0) {
       const newProductsList = productList.filter(
@@ -24,7 +27,7 @@ export default function RelatedProducts({ category }) {
     return (
       <>
         <div className="flex justify-center items-center min-h-screen w-full">
-          <ClipLoader color={"green"} /> 
+          <ClipLoader color={"green"} />
         </div>
       </>
     );
@@ -44,17 +47,18 @@ export default function RelatedProducts({ category }) {
     );
   }
 
-
   return (
     <>
       {/* related poroducts  */}
       <div className="row gap-y-8 my-10">
-        {
-          relatedProducts.map((product) => (
-            <ProductCard product={product} key={product.id} />
-          ))
-        }
-      </div> 
+        {relatedProducts.map((product) => (
+          <ProductCard
+            product={product}
+            key={product.id}
+            isProductInWishList={isProductInWishList(product.id)}
+          />
+        ))}
+      </div>
     </>
   );
 }

@@ -10,6 +10,7 @@ export default function ProductCard({ product, isProductInWishList }) {
   const { AddToWishList, removeFromWishList } = useContext(WishListContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isHandlingWishList, setIsHandlingWishList] = useState(false);
+
   async function addProductToCart(productId) {
     setIsLoading(true);
     const response = await addToCart(productId);
@@ -23,8 +24,7 @@ export default function ProductCard({ product, isProductInWishList }) {
       console.error("Failed to add product to cart", response.data.message);
     }
   }
-  //function to toggle wishlist click
-  async function handleWishListClick(productId) {
+  async function handleWishListIconClick(productId) {
     setIsHandlingWishList(true);
     try {
       if (isProductInWishList) {
@@ -68,7 +68,7 @@ export default function ProductCard({ product, isProductInWishList }) {
           </Link>
           <span
             className="cursor-pointer"
-            onClick={() => handleWishListClick(product.id)}
+            onClick={() => handleWishListIconClick(product.id)}
           >
             {isHandlingWishList ? (
               <i className="fa-solid fa-spinner fa-spin" spin="true"></i>

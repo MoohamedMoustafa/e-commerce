@@ -4,11 +4,12 @@ import { WishListContext } from "../../Context/WishListContext";
 import { ClipLoader } from "react-spinners";
 import toast from "react-hot-toast";
 import { Link } from 'react-router-dom';
+import { CartContext } from "../../Context/CartContext";
 
 export default function WishLsit() {
   const [wishList, setWishList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  const {addToCart} = useContext(CartContext);
   const { getWishList, removeFromWishList } = useContext(WishListContext);
 
   async function getUerWishList() {
@@ -31,12 +32,24 @@ export default function WishLsit() {
       console.log("respone from removeFromWishList", respone);
       if(respone.data.status === "success") {
         console.log("Product removed from wishlist");
-        
         toast.success("Product removed from wishlist");
         await getUerWishList();
       }
     } catch (error) {
       console.error("Error removing product from wishlist:", error.message);
+    }
+  }
+
+  async function handleAddToCart(productId) {
+    try {
+      const response = await addToCart(productId);
+      if (response.data.status === "success") {
+        console.log("Product added to cart");
+        toast.success("Product added to cart");  
+        await handleDeleteItem(productId);
+      }
+    } catch (error) {
+      console.error("Error adding product to cart:", error.message);
     }
   }
 
@@ -99,7 +112,7 @@ export default function WishLsit() {
           </thead>
           <tbody>
             {wishList.map((product) => {
-              return <WishListItem key={product._id} product={product} onDeleteitem={handleDeleteItem} />;
+              return <WishListItem key={product._id} product={product} onDeleteitem={handleDeleteItem} onAddItem={handleAddToCart} />;
             })}
           </tbody>
         </table>
@@ -108,7 +121,7 @@ export default function WishLsit() {
   );
 }
 
-function WishListItem({ product, onDeleteitem }) {
+function WishListItem({ product, onDeleteitem, onAddItem }) {
   return (
     <>
       <tr className="bg-white border-b  border-gray-200 hover:bg-gray-50 ">
@@ -127,7 +140,7 @@ function WishListItem({ product, onDeleteitem }) {
           <span className="text-red-500 cursor-pointer" onClick={() => onDeleteitem(product.id)}>Remove</span>
         </td>
         <td className="px-6 py-4">
-          <span className="text-green-500 cursor-pointer">Add To Cart</span>
+          <span className="text-green-500 cursor-pointer" onClick={() => onAddItem(product.id)}>Add To Cart</span>
         </td>
       </tr>
     </>

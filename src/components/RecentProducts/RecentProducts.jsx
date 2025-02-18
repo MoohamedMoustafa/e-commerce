@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./RecentProducts.module.css";
 import { ClipLoader } from "react-spinners";
 import ProductCard from "../ProductCard/ProductCard";
@@ -50,7 +50,11 @@ export default function RecentProducts() {
     <>
       <div className="row gap-y-8">
         {productList?.map((product) => (
-          <ProductCard product={product} key={product.id} isProductInWishList={isProductInWishList(product.id)} />
+          <ProductCard
+            product={product}
+            key={product.id}
+            isProductInWishList={isProductInWishList(product.id)}
+          />
         ))}
       </div>
     </>

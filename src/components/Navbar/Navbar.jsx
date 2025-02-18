@@ -33,16 +33,7 @@ export default function Navbar() {
                     Home
                   </NavLink>
                 </li>
-                <li>
-                  <NavLink className="text-slate-600 relative" to="cart">
-                    Cart
-                    {numOfCartItems > 0 && (
-                      <div className="absolute top-[-11px] right-[-11px] size-4 text-white bg-red-500 rounded-full text-xs flex items-center justify-center">
-                        {numOfCartItems}
-                      </div>
-                    )}
-                  </NavLink>
-                </li>
+
                 <li>
                   <NavLink className="text-slate-600" to="products">
                     Products
@@ -68,7 +59,7 @@ export default function Navbar() {
           </div>
 
           <div className="right-side   flex items-center space-x-6 rtl:space-x-reverse">
-            <ul className="social-links flex gap-4">
+            {/* <ul className="social-links flex gap-4">
               <li>
                 <i className="fab fa-facebook"></i>
               </li>
@@ -81,9 +72,9 @@ export default function Navbar() {
               <li>
                 <i className="fab fa-twitter"></i>
               </li>
-            </ul>
+            </ul> */}
 
-            <ul className="sign flex gap-4">
+            <ul className="sign flex gap-5">
               {/* Show login and register links only if the user is not logged in */}
               {!isLogin ? (
                 <>
@@ -95,11 +86,24 @@ export default function Navbar() {
                   </li>
                 </>
               ) : (
+                <>
                 <li>
-                  <span className="cursor-pointer" onClick={handleLogout}>
-                    Signout
-                  </span>
-                </li>
+                    <NavLink className="text-slate-600 relative" to="cart">
+                    <i className="fa-solid fa-cart-shopping text-xl"></i>
+                      {numOfCartItems > 0 && (
+                        <div className="absolute top-[-11px] right-[-11px] size-4 text-white bg-red-500 rounded-full text-xs flex items-center justify-center">
+                          {numOfCartItems}
+                        </div>
+                      )}
+                    </NavLink>
+                  </li>
+                  <li>
+                    <span className="cursor-pointer" onClick={handleLogout}>
+                      Signout
+                    </span>
+                  </li>
+                  
+                </>
               )}
             </ul>
           </div>
