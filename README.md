@@ -82,6 +82,7 @@ src/
 
 ### Product Management
 
+- Product search functionality
 - Product listing with filters
 - Product details view
 - Related products recommendations

@@ -124,7 +124,7 @@ export default function ProductDetails() {
           </div>
         </div>
       }
-      <RelatedProducts category={category} />
+      <RelatedProducts filterType={"category"} filterValue={category} />
     </>
   );
 }
