@@ -37,9 +37,9 @@ export default function Categories() {
       </>
     );
   }
-``
+
   return (
-    <div className="p-5">
+    <div className="p-2">
       <h1 className="text-2xl font-bold mb-5 text-green-700">Categories</h1>
       <div className="flex flex-wrap gap-6 justify-center">
         {categories.map((category) => (
