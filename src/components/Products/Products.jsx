@@ -4,8 +4,11 @@ import ProductCard from "../ProductCard/ProductCard";
 import useProducts from "./../../Hooks/useProducts";
 import { ClipLoader } from "react-spinners";
 import { WishListContext } from "../../Context/WishListContext";
+import SearchInput from "../SearchInput/SearchInput";
 
 export default function Products() {
+  const [searchedWords, setSearchedWords] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState([]);
   const {
     data: productList,
     isError,
@@ -14,9 +17,30 @@ export default function Products() {
     isFetching,
   } = useProducts();
   const { wishList } = useContext(WishListContext);
+
+
   function isProductInWishList(productId) {
     return wishList?.some((product) => product.id === productId);
   }
+
+  function filterProducts() {
+    if(searchedWords === "") {
+      setFilteredProducts(productList);
+      return;
+    }
+    const filteredList = productList.filter((product) => {
+      return product.title.toLowerCase().includes(searchedWords.toLowerCase());
+    })
+    setFilteredProducts(filteredList);
+  }
+
+useEffect(() => {
+  console.log("searchedWords: ", searchedWords);
+  filterProducts();
+  if(searchedWords === "") {
+    console.log("empty");
+  }
+} , [searchedWords])
 
   if (isLoading) {
     return (
@@ -44,18 +68,17 @@ export default function Products() {
 
   return (
     <>
-      <h2 className="text-gray-600 font-semibold mt-1 mb-2 capitalize text-start pl-5">
-        check our products
-      </h2>
+      <h1 className="text-2xl font-bold mb-5 text-green-700">All Products</h1>
 
-      <div className="row gap-y-8">
-        {productList?.map((product) => (
+      <SearchInput onSeach={setSearchedWords} value={searchedWords} />
+      <div className="row gap-y-8 justify-center items-center">
+        {filteredProducts.length > 0  ? filteredProducts?.map((product) => (
           <ProductCard
             product={product}
             key={product.id}
             isProductInWishList={isProductInWishList(product.id)}
           />
-        ))}
+        )) :  <h3 className="self-center text-2xl font-bold ">No Products Found</h3> }
       </div>
     </>
   );
