@@ -46,11 +46,20 @@ export default function RelatedProducts({ category }) {
       </>
     );
   }
+  if(relatedProducts.length === 0) {
+    return (<div className="flex justify-center items-center min-h-screen w-full">
+    <div className="text-center">
+      <h2 className="text-2xl font-bold mb-4">No Products Found</h2>
+      <p className="text-gray-600">We couldn't find any products matching your criteria.</p>
+    </div>
+  </div>)
+  }
 
   return (
     <>
       {/* related poroducts  */}
-      <div className="row gap-y-8 my-10">
+      <h3 className="text-center text-2xl font-bold text-green-800  mt-10 mb-5">Related Products</h3>
+      <div className="row gap-y-8 my-10c">
         {relatedProducts.map((product) => (
           <ProductCard
             product={product}
