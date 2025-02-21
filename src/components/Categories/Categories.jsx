@@ -19,9 +19,8 @@ export default function Categories() {
   function handleCategoryClick(category) {
     setSelectedCategory(category);
     setTimeout(() => {
-
       relatedProductRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 500)
+    }, 500);
   }
 
   if (isLoading) {
@@ -72,7 +71,12 @@ export default function Categories() {
         </div>
       </div>
       <div ref={relatedProductRef}>
-        {selectedCategory && <RelatedProducts category={selectedCategory} />}
+        {selectedCategory && (
+          <RelatedProducts
+            filterType={"category"}
+            filterValue={selectedCategory}
+          />
+        )}
       </div>
     </>
   );

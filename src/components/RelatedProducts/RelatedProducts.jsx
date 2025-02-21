@@ -5,7 +5,7 @@ import { ClipLoader } from "react-spinners";
 import ProductCard from "../ProductCard/ProductCard";
 import { WishListContext } from "../../Context/WishListContext";
 
-export default function RelatedProducts({ category }) {
+export default function RelatedProducts({filterType, filterValue }) {
   const [relatedProducts, setRelatedProducts] = useState([]); // new
 
   const { data: productList, isError, isLoading, error } = useProducts();
@@ -14,14 +14,19 @@ export default function RelatedProducts({ category }) {
     return wishList?.some((product) => product.id === productId);
   }
   useEffect(() => {
+
     if (productList && productList.length > 0) {
-      const newProductsList = productList.filter(
-        (product) => product.category.name === category
-      );
-      setRelatedProducts(newProductsList);
-      console.log("productList: ", productList);
+      const newProductList = productList.filter((product) => {
+        if (filterType === "category") {
+          return product.category.name === filterValue;
+        } else if (filterType === "brand") {
+          return product.brand.name === filterValue;
+        }
+        return false;
+      });
+      setRelatedProducts(newProductList);
     }
-  }, [category, productList]);
+  }, [filterType, filterValue ,productList]);
 
   if (isLoading) {
     return (
@@ -46,19 +51,25 @@ export default function RelatedProducts({ category }) {
       </>
     );
   }
-  if(relatedProducts.length === 0) {
-    return (<div className="flex justify-center items-center min-h-screen w-full">
-    <div className="text-center">
-      <h2 className="text-2xl font-bold mb-4">No Products Found</h2>
-      <p className="text-gray-600">We couldn't find any products matching your criteria.</p>
-    </div>
-  </div>)
+  if (relatedProducts.length === 0) {
+    return (
+      <div className="flex justify-center items-center min-h-screen w-full">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">No Products Found</h2>
+          <p className="text-gray-600">
+            We couldn't find any products matching your criteria.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (
     <>
       {/* related poroducts  */}
-      <h3 className="text-center text-2xl font-bold text-green-800  mt-10 mb-5">Related Products</h3>
+      <h3 className="text-center text-2xl font-bold text-green-800  mt-10 mb-5">
+        Related Products
+      </h3>
       <div className="row gap-y-8 my-10c">
         {relatedProducts.map((product) => (
           <ProductCard
