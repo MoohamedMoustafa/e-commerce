@@ -59,21 +59,6 @@ export default function Navbar() {
           </div>
 
           <div className="right-side   flex items-center space-x-6 rtl:space-x-reverse">
-            {/* <ul className="social-links flex gap-4">
-              <li>
-                <i className="fab fa-facebook"></i>
-              </li>
-              <li>
-                <i className="fab fa-instagram"></i>
-              </li>
-              <li>
-                <i className="fab fa-youtube"></i>
-              </li>
-              <li>
-                <i className="fab fa-twitter"></i>
-              </li>
-            </ul> */}
-
             <ul className="sign flex gap-5">
               {/* Show login and register links only if the user is not logged in */}
               {!isLogin ? (
